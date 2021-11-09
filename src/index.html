@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Day 1</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- <div class="student">
+          <h2 class="title">Создать нового студента</h2>
+  
+          <input type="text" v-model="newStudent.fullname" placeholder="Имя студента" />
+  
+          <div class="wrap">
+            <input type="text" v-model="newStudent.group" placeholder="Группа" />
+          </div>
+  
+          <div class="wrap">
+            <input type="checkbox" v-model="newStudent.done" />
+          </div>
+  
+          <button @click="addStudent()">Добавить</button>
+        </div> -->
+
+      <input type="search" class="search" placeholder="Найти студента" v-model="search" />
+
+      <table>
+        <tr v-if="searchStudent().length !== 0 && getNumberOfStudents">
+          <th>Фото</th>
+          <th>Имя</th>
+          <th>Група</th>
+          <th>Сдал ПР</th>
+          <th>Удалить</th>
+        </tr>
+
+        <tr v-for="st in searchStudent()">
+          <td><img :src="st.photo" alt="" /></td>
+          <td>{{st.name}}</td>
+          <td>{{st.group}}</td>
+          <td>
+            <input type="checkbox" v-model="st.isDonePr" />
+          </td>
+          <td>
+            <button @click="deleteStudent(st._id)">Удалить</button>
+          </td>
+        </tr>
+      </table>
+
+      <p class="bold" v-if="searchStudent().length === 0">Результатов не найдено</p>
+      <p>Всего студентов: {{getNumberOfStudents}}</p>
+
+      <div class="converter">
+        <p class="title">Currency Converter</p>
+
+        <div>
+          <span>Enter Amount:</span>
+          <input type="text" v-model.number="amount" />
+        </div>
+
+        <p><b>Convert</b></p>
+
+        <span>From</span>
+        <select v-model="sellCurrency">
+          <option v-for="currency in currencies" :value="currency">{{currency.txt}}</option>
+        </select>
+
+        <span>To</span>
+        <select v-model="buyCurrency">
+          <option v-for="currency in currencies" :value="currency">{{currency.txt}}</option>
+        </select>
+
+        <button @click="swapCurrencies">Swap</button>
+        <p class="output" v-if="sellCurrency && buyCurrency && amount">
+          {{amount}} {{sellCurrency.cc}} equals {{output}} {{buyCurrency.cc}}
+        </p>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
