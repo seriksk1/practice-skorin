@@ -93,7 +93,7 @@ import axios from "axios";
 const initialStudent = {
   name: "",
   group: "",
-  isDonePr: "",
+  isDonePr: false,
 };
 
 export default {
