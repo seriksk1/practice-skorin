@@ -1,17 +1,17 @@
-var path = require('path');
-const { VueLoaderPlugin } = require('vue-loader');
+var path = require("path");
+const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
-  entry: './main.js',
+  context: path.resolve(__dirname, "src"),
+  entry: "./main.js",
 
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.js',
+      vue: "vue/dist/vue.js",
     },
   },
   devServer: {
-    static: path.join(__dirname, 'src'),
+    static: path.join(__dirname, "src"),
     compress: true,
     port: 8080,
   },
@@ -19,11 +19,11 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: "vue-loader",
       },
       {
         test: /.css$/,
-        use: ['vue-style-loader', 'css-loader'],
+        use: ["vue-style-loader", "css-loader"],
       },
     ],
   },

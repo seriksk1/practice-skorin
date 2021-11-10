@@ -12,7 +12,12 @@
       <button @click="addStudent()">Добавить</button>
     </div>
 
-    <input type="search" class="search" placeholder="Найти студента" v-model="search" />
+    <input
+      type="search"
+      class="search"
+      placeholder="Найти студента"
+      v-model="search"
+    />
 
     <table>
       <tr v-if="searchStudent().length !== 0 && getNumberOfStudents">
@@ -29,11 +34,19 @@
           <img :src="st.photo" alt="" />
         </td>
         <td>
-          <input v-if="isStudentEditing(st._id)" type="text" v-model="editingStudent.name" />
+          <input
+            v-if="isStudentEditing(st._id)"
+            type="text"
+            v-model="editingStudent.name"
+          />
           <span v-else>{{ st.name }}</span>
         </td>
         <td>
-          <input v-if="isStudentEditing(st._id)" type="text" v-model="editingStudent.group" />
+          <input
+            v-if="isStudentEditing(st._id)"
+            type="text"
+            v-model="editingStudent.group"
+          />
           <span v-else>{{ st.group }}</span>
         </td>
         <td>
@@ -50,69 +63,69 @@
           />
         </td>
         <td>
-          <button @click="deleteStudent(st._id)" :disabled="isStudentEditing(st._id)">
+          <button
+            @click="deleteStudent(st._id)"
+            :disabled="isStudentEditing(st._id)"
+          >
             Удалить
           </button>
         </td>
         <td>
-          <button v-if="isStudentEditing(st._id)" @click="updateStudent()">ОК</button>
+          <button v-if="isStudentEditing(st._id)" @click="updateStudent()">
+            ОК
+          </button>
           <button v-else @click="editStudent(st._id)">Редактировать</button>
         </td>
       </tr>
     </table>
 
-    <p class="bold" v-if="searchStudent().length === 0">Результатов не найдено</p>
+    <p class="bold" v-if="searchStudent().length === 0">
+      Результатов не найдено
+    </p>
     <p>Всего студентов: {{ getNumberOfStudents }}</p>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
-import axios from 'axios';
+import Vue from "vue";
+import axios from "axios";
 
 const initialStudent = {
-  name: '',
-  group: '',
-  isDonePr: '',
+  name: "",
+  group: "",
+  isDonePr: "",
 };
 
 export default {
   data: function () {
     return {
-      search: '',
+      search: "",
       students: [],
-      currencies: [],
-
-      amount: 0,
-      sellCurrency: null,
-      buyCurrency: null,
-
       editingStudent: null,
       newStudent: { ...initialStudent },
     };
   },
   mounted: async function () {
     try {
-      const { data: students } = await axios.get('http://46.101.212.195:3000/students');
-      this.students = [...students];
-
-      const { data: currencies } = await axios.get(
-        'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json',
+      const { data: students } = await axios.get(
+        "http://46.101.212.195:3000/students"
       );
-      this.currencies = currencies;
+      this.students = [...students];
     } catch (err) {
       console.log(err);
     }
   },
   methods: {
     editStudent: function (id) {
-      this.editingStudent = { ...this.students.find((student) => student._id === id) };
+      this.editingStudent = {
+        ...this.students.find((student) => student._id === id),
+      };
     },
     addStudent: async function () {
       try {
         const { data: newStudent } = await axios.post(
           `http://46.101.212.195:3000/students`,
-          this.newStudent,
+          this.newStudent
         );
         this.students.push(newStudent);
       } catch (err) {
@@ -132,11 +145,11 @@ export default {
       try {
         const { data: updatedStudent } = await axios.put(
           `http://46.101.212.195:3000/students/${this.editingStudent._id}`,
-          this.editingStudent,
+          this.editingStudent
         );
 
         this.students = this.students.map((student) =>
-          student._id === this.editingStudent._id ? updatedStudent : student,
+          student._id === this.editingStudent._id ? updatedStudent : student
         );
 
         this.editingStudent = null;
@@ -150,7 +163,7 @@ export default {
     searchStudent: function () {
       if (this.search) {
         return this.students.filter((student) =>
-          student.name.toLowerCase().includes(this.search.toLowerCase()),
+          student.name.toLowerCase().includes(this.search.toLowerCase())
         );
       }
       return this.students;
@@ -158,21 +171,10 @@ export default {
     clear: function () {
       this.newStudent = { ...initialStudent };
     },
-    swapCurrencies: function () {
-      const temp = { ...this.sellCurrency };
-      this.sellCurrency = { ...this.buyCurrency };
-      this.buyCurrency = { ...temp };
-    },
   },
   computed: {
     getNumberOfStudents: function () {
       return this.students.length;
-    },
-
-    output: function () {
-      if (this.sellCurrency && this.buyCurrency) {
-        return ((this.amount * this.sellCurrency.rate) / this.buyCurrency.rate).toFixed(3);
-      } else return 0;
     },
   },
 };
@@ -206,11 +208,11 @@ td img {
   margin: 10px 0;
 }
 
-input[type='search'] {
+input[type="search"] {
   margin: 25px 0;
 }
 
-td input[type='text'] {
+td input[type="text"] {
   max-width: 100px;
 }
 
