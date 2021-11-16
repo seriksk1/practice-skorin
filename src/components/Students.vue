@@ -1,5 +1,20 @@
 <template>
   <div>
+    <div :class="getTheme">
+      <input
+        type="radio"
+        name="theme"
+        :checked="getTheme === 'default'"
+        @change="setTheme('default')"
+      />Стандартная
+      <input
+        type="radio"
+        name="theme"
+        :checked="getTheme === 'dark'"
+        @change="setTheme('dark')"
+      />Тёмная
+    </div>
+
     <div class="form-add">
       <h2 class="title">Создать нового студента</h2>
       <input type="text" v-model="newStudent.name" placeholder="Имя студента" />
@@ -20,7 +35,7 @@
     />
 
     <table>
-      <tr v-if="searchStudent().length !== 0 && getNumberOfStudents">
+      <tr v-if="searchStudent().length !== 0 && studentsCount">
         <th>Фото</th>
         <th>Имя</th>
         <th>Група</th>
@@ -84,7 +99,7 @@
     <p class="bold" v-if="searchStudent().length === 0">
       Результатов не найдено
     </p>
-    <p>Всего студентов: {{ getNumberOfStudents }}</p>
+    <p>Всего студентов: {{ studentsCount }}</p>
   </div>
 </template>
 
@@ -112,6 +127,7 @@ export default {
         "http://46.101.212.195:3000/students"
       );
       this.students = [...students];
+      this.$store.commit("setCount", this.students.length);
     } catch (err) {
       console.log(err);
     }
@@ -129,6 +145,7 @@ export default {
           this.newStudent
         );
         this.students.push(newStudent);
+        this.$store.commit("setCount", this.students.length);
       } catch (err) {
         console.log(err);
       }
@@ -138,6 +155,7 @@ export default {
       try {
         await axios.delete(`http://46.101.212.195:3000/students/${id}`);
         this.students = this.students.filter((student) => student._id !== id);
+        this.$store.commit("setCount", this.students.length);
       } catch (err) {
         console.log(err);
       }
@@ -172,10 +190,16 @@ export default {
     clear: function () {
       this.newStudent = { ...initialStudent };
     },
+    setTheme: function (theme) {
+      this.$store.commit("setTheme", theme);
+    },
   },
   computed: {
-    getNumberOfStudents: function () {
-      return this.students.length;
+    studentsCount: function () {
+      return this.$store.getters.getCount;
+    },
+    getTheme: function () {
+      return (this.currentTheme = this.$store.getters.getTheme);
     },
   },
 };

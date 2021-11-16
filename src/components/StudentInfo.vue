@@ -10,6 +10,7 @@
       <p>Группа: {{ student.group }}</p>
       <p>Оценка: {{ student.mark }}</p>
     </div>
+    <p>Всего студентов: {{ studentsCount }}</p>
   </div>
 </template>
 
@@ -31,6 +32,11 @@ export default {
       `http://46.101.212.195:3000/students/${this.id}`
     );
     this.student = { ...student, mark: student.mark ? student.mark : "?" };
+  },
+  computed: {
+    studentsCount: function () {
+      return this.$store.getters.getCount;
+    },
   },
 };
 </script>

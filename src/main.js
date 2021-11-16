@@ -6,6 +6,7 @@ import VueAxios from "vue-axios";
 import App from "./components/App.vue";
 import Students from "./components/Students.vue";
 import StudentInfo from "./components/StudentInfo.vue";
+import store from "./store";
 
 const routes = [
   {
@@ -29,4 +30,5 @@ new Vue({
   render: (h) => h(App),
   el: "#app",
   router,
+  store,
 });
