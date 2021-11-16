@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div :class="getTheme">
+    <div>
       <input
         type="radio"
         name="theme"
-        :checked="getTheme === 'default'"
-        @change="setTheme('default')"
-      />Стандартная
+        :checked="getTheme === 'light'"
+        @change="setTheme('light')"
+      />Светлая таблица
       <input
         type="radio"
         name="theme"
         :checked="getTheme === 'dark'"
         @change="setTheme('dark')"
-      />Тёмная
+      />Тёмная таблица
     </div>
 
     <div class="form-add">
@@ -34,7 +34,7 @@
       v-model="search"
     />
 
-    <table>
+    <table :class="getTheme">
       <tr v-if="searchStudent().length !== 0 && studentsCount">
         <th>Фото</th>
         <th>Имя</th>
@@ -206,6 +206,16 @@ export default {
 </script>
 
 <style scoped>
+table.light {
+  background-color: #fff;
+  color: #000;
+}
+
+table.dark {
+  background-color: #000;
+  color: #fff;
+}
+
 .title {
   font-size: 18px;
   font-weight: 700;
