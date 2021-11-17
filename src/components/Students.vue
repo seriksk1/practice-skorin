@@ -81,8 +81,10 @@
         </td>
         <td>
           <button
-            @click="deleteStudent(st._id)"
-            :disabled="isStudentEditing(st._id)"
+            @click.prevent="deleteStudent(st._id)"
+            :disabled="
+              isStudentEditing(st._id) || getCurrentUser.group !== st.group
+            "
           >
             Удалить
           </button>
@@ -200,6 +202,9 @@ export default {
     },
     getTheme: function () {
       return (this.currentTheme = this.$store.getters.getTheme);
+    },
+    getCurrentUser() {
+      return this.$store.getters.getUser;
     },
   },
 };
