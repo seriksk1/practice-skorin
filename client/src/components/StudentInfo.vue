@@ -17,6 +17,10 @@
 <script>
 import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://localhost:3003",
+});
+
 export default {
   props: {
     id: "",
@@ -28,9 +32,7 @@ export default {
     };
   },
   created: async function () {
-    const { data: student } = await axios.get(
-      `http://46.101.212.195:3000/students/${this.id}`
-    );
+    const { data: student } = await api.get(`/students/${this.id}`);
     this.student = { ...student, mark: student.mark ? student.mark : "?" };
   },
   computed: {

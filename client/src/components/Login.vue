@@ -9,6 +9,10 @@
 <script>
 import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://localhost:3003",
+});
+
 export default {
   data: function () {
     return {
@@ -18,9 +22,7 @@ export default {
   methods: {
     auth: async function () {
       try {
-        const { data } = await axios.get(
-          `http://46.101.212.195:3000/students/name/${this.login}`
-        );
+        const { data } = await api.get(`/students/name/${this.login}`);
 
         if (data === null || data.name === "CastError") {
           return;

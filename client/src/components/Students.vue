@@ -108,6 +108,10 @@
 <script>
 import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://localhost:3003",
+});
+
 const initialStudent = {
   name: "",
   group: "",
@@ -125,9 +129,7 @@ export default {
   },
   mounted: async function () {
     try {
-      const { data: students } = await axios.get(
-        "http://46.101.212.195:3000/students"
-      );
+      const { data: students } = await api.get("/students");
       this.students = [...students];
       this.$store.commit("setCount", this.students.length);
     } catch (err) {
@@ -142,8 +144,8 @@ export default {
     },
     addStudent: async function () {
       try {
-        const { data: newStudent } = await axios.post(
-          `http://46.101.212.195:3000/students`,
+        const { data: newStudent } = await api.post(
+          "/student",
           this.newStudent
         );
         this.students.push(newStudent);
@@ -155,7 +157,7 @@ export default {
     },
     deleteStudent: async function (id) {
       try {
-        await axios.delete(`http://46.101.212.195:3000/students/${id}`);
+        await api.delete(`/student/${id}`);
         this.students = this.students.filter((student) => student._id !== id);
         this.$store.commit("setCount", this.students.length);
       } catch (err) {
@@ -164,8 +166,8 @@ export default {
     },
     updateStudent: async function () {
       try {
-        const { data: updatedStudent } = await axios.put(
-          `http://46.101.212.195:3000/students/${this.editingStudent._id}`,
+        const { data: updatedStudent } = await api.put(
+          "/student",
           this.editingStudent
         );
 
